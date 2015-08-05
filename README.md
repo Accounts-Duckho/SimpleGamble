@@ -1,6 +1,6 @@
 # SimpleGamble
 Only engine cuz my busy schedule
-- [ ] shuffle
+- [x] shuffle
 - [ ] card draw and open
 - [ ] check
 - [ ] loop and finish
