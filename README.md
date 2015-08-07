@@ -2,7 +2,7 @@
 Only engine cuz my busy schedule
 - [x] shuffle
 - [x] card draw and open
-- [ ] betting
-- [ ] check
-- [ ] loop and finish
-- [ ] shout SonNaEun 
+- [x] betting
+- [x] check
+- [x] loop and finish
+- [x] shout SonNaEun 
