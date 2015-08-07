@@ -7,7 +7,8 @@ cardpack_3=[1,2,3,4,5,6,7,8,9,10]
 cardpack_4=[1,2,3,4,5,6,7,8,9,10]
 userCard=0
 comCard=0
-mod=0
+userChip=0
+bettingChip=0
 def shuffle():
 	random.shuffle(cardpack_1)
 	random.shuffle(cardpack_2)
@@ -32,23 +33,35 @@ def secondDraw(round):
 		return cardpack_3[(2*round)-21]
 	if round >= 16 and round <= 20:
 		return cardpack_4[(2*round)-31]
-def open(mod, round):
+def open(round):
 	global comCard
-	if mod==1:
-		print("Computer's card :", secondDraw(round))
-		comCard=secondDraw(round)
-	else:
-		print("Computer's card :", firstDraw(round))		
-		comCard=firstDraw(round)
-def game(mod):
+	print("Computer's card :", secondDraw(round))
+	comCard=secondDraw(round)
+def betting():
+	global userChip
+	global bettingChip
+	choice=0
+	choice=int(input("Would you bet this game? Yes(1), No(2) :"))
+	if choice == 1:
+		chips=int(input("How much? : "))
+		if chips <= userChip:
+			bettingChip = chips
+		else:
+			print("Your all chips betted")
+			bettingChip = userChip
+	else: 
+		print("No Bet")		
+def game():
 	round=0
 	# array number starts at Zero
 	while round+1 <= 20:
 		round += 1
-		open(mod, round)
+		open(round)
+		betting()
 	print("Finished")
 def init():
+	global userChip
 	shuffle()
-	mod=input("First = 1 , After = 2 : ")
+	userChip = 5
 init()
-game(mod)
+game()
