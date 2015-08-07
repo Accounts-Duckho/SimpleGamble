@@ -45,7 +45,7 @@ def betting():
 	choice=int(input("Would you bet this game? Yes(1), No(2) :"))
 	if choice == 1:
 		chips=int(input("How much? : "))
-		if chips <= userChip:
+		if chips <= userChip and chips !=0:
 			bettingChip = chips
 			userChip-=chips
 		elif chips==0:
