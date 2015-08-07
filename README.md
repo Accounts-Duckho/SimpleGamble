@@ -1,7 +1,7 @@
 # SimpleGamble
 Only engine cuz my busy schedule
 - [x] shuffle
-- [ ] card draw and open
+- [x] card draw and open
 - [ ] check
 - [ ] loop and finish
 - [ ] shout SonNaEun 
