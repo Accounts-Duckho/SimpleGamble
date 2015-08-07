@@ -1,5 +1,7 @@
 '''#! /usr/bin/python'''
 import random
+import os
+import msvcrt
 # In my game , four card pack will be used
 cardpack_1=[1,2,3,4,5,6,7,8,9,10]
 cardpack_2=[1,2,3,4,5,6,7,8,9,10]
@@ -14,7 +16,6 @@ def shuffle():
 	random.shuffle(cardpack_2)
 	random.shuffle(cardpack_3)
 	random.shuffle(cardpack_4)
-# First start, first draw 
 def firstDraw(round):
 	if round >= 1 and round <= 5:
 		return cardpack_1[(2*round)-2]
@@ -46,18 +47,54 @@ def betting():
 		chips=int(input("How much? : "))
 		if chips <= userChip:
 			bettingChip = chips
+			userChip-=chips
+		elif chips==0:
+			print("minimum is 1")
+			bettingChip = 1
+			userChip-=1
 		else:
 			print("Your all chips betted")
 			bettingChip = userChip
+			userChip=0
 	else: 
-		print("No Bet")		
+		print("No Bet")
+def check(round):
+	global userCard
+	global comCard
+	global bettingChip
+	global userChip
+	print("Your Card :", firstDraw(round))
+	userCard=firstDraw(round)
+	print("[Result]")
+	if userCard > comCard:
+		print("User Win")
+		print("User get {get} chips".format(get=2*bettingChip))
+		userChip+=(2*bettingChip)
+	elif userCard == comCard:
+		print("Draw")
+		userChip += bettingChip
+	elif userCard < comCard:
+		print("User Lose")
+		print("User lose {lose} chips".format(lose=bettingChip))
+	print("[Status]")
+	print("[chip] ",userChip)
 def game():
+	global userCard
+	global comCard
+	global bettingChip
+	global userChip
 	round=0
 	# array number starts at Zero
-	while round+1 <= 20:
+	while round+1 <= 20 or userChip==0:
+		os.system('cls')
 		round += 1
 		open(round)
 		betting()
+		check(round)
+		userCard=0
+		comCard=0
+		bettingChip=0
+		msvcrt.getch()
 	print("Finished")
 def init():
 	global userChip
