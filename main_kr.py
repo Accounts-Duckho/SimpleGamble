@@ -16,35 +16,27 @@ def shuffle():
 	random.shuffle(cardpack_2)
 	random.shuffle(cardpack_3)
 	random.shuffle(cardpack_4)
-def firstDraw(round):
-	if round >= 1 and round <= 5:
-		return cardpack_1[(2*round)-2]
-	if round >= 6 and round <= 10:
-		return cardpack_2[(2*round)-12]
-	if round >= 11 and round <= 15:
-		return cardpack_3[(2*round)-22]
-	if round >= 16 and round <= 20:
-		return cardpack_4[(2*round)-32]
-def secondDraw(round):
-	if round >= 1 and round <= 5:
-		return cardpack_1[(2*round)-1]
-	if round >= 6 and round <= 10:
-		return cardpack_2[(2*round)-11]
-	if round >= 11 and round <= 15:
-		return cardpack_3[(2*round)-21]
-	if round >= 16 and round <= 20:
-		return cardpack_4[(2*round)-31]
+def draw(code):
+	if code >= 0 and code <= 9:
+		return cardpack_1[code]
+	if code >= 10 and code <= 19:
+		return cardpack_2[code-10]
+	if code >= 20 and code <= 29:
+		return cardpack_3[code-20]
+	if code >= 30  and code <= 39:
+		return cardpack_4[code-30]
 def open(round):
 	global comCard
-	print("오픈카드 :", secondDraw(round))
-	comCard=secondDraw(round)
+	comCode=2*round-1
+	comCard=draw(comCode)
+	print("오픈카드 :", comCard)
 def betting():
 	global userChip
 	global bettingChip
 	choice=0
-	choice=int(input("배팅하시겠습니까? 네(1), 아니요(2) :"))
+	choice=int(input("배팅하시겠습니까? 네(1), 죽겠습니다(2) :"))
 	if choice == 1:
-		chips=int(input("얼마나 베팅하시겠습니까? : "))
+		chips=int(input("얼마나 베팅하시겠습니까? 개수 , 올인(777): "))
 		if chips <= userChip and chips != 0:
 			bettingChip = chips
 			userChip-=chips
@@ -52,19 +44,24 @@ def betting():
 			print("최소 1개는 베팅해야합니다. 1개 배팅됩니다.")
 			bettingChip = 1
 			userChip-=1
-		else:
-			print("가진 칩 이상 베팅은 불가능합니다. 올인합니다.")
+		elif chips==777:
+			print("올인합니다.")
 			bettingChip = userChip
-			userChip=0
+			userChip=0			
+		else:
+			print("Error betting() #2")
+	elif choice == 2:
+		print("죽습니다.")
 	else: 
-		print("베팅안함")
+		print("Error betting() #1")
 def check(round):
 	global userCard
 	global comCard
 	global bettingChip
 	global userChip
-	print("당신의 카드 :", firstDraw(round))
-	userCard=firstDraw(round)
+	myCode=2*round-2
+	userCard=draw(myCode)
+	print("당신의 카드 :", userCard)
 	print("[결과]")
 	if userCard > comCard:
 		print("승리")
@@ -84,10 +81,10 @@ def game():
 	global bettingChip
 	global userChip
 	round=0
-	# array number starts at Zero
-	while round+1 <= 20 or userChip==0:
-		os.system('cls')
+	# init number is zero
+	while round < 20 and userChip!=0:
 		round += 1
+		os.system('cls')
 		open(round)
 		betting()
 		check(round)
@@ -95,10 +92,11 @@ def game():
 		comCard=0
 		bettingChip=0
 		msvcrt.getch()
+	os.system('cls')
 	print("게임 종료")
 def init():
 	global userChip
 	shuffle()
-	userChip = 5
+	userChip = 15
 init()
 game()
